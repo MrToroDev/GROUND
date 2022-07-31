@@ -1,0 +1,387 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Engine\Components\Basic2DGeometry.cpp">
+      <Filter>Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\Basic3DGeometry.cpp">
+      <Filter>Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\graphics\Billboard.cpp">
+      <Filter>Engine\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\system\Collision.cpp">
+      <Filter>Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\graphics\Framebuffer.cpp">
+      <Filter>Engine\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="States\GameState.cpp">
+      <Filter>Game\States</Filter>
+    </ClCompile>
+    <ClCompile Include="States\MainmenuState.cpp">
+      <Filter>Game\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GR_cross_definitions.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\graphics\GraphicLoader.cpp">
+      <Filter>Engine\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\audio\SoundBuffer.cpp">
+      <Filter>Engine\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\audio\SoundDevice.cpp">
+      <Filter>Engine\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\audio\SoundSource.cpp">
+      <Filter>Engine\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\audio\Listener.cpp">
+      <Filter>Engine\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\window\Window.cpp">
+      <Filter>Engine\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\window\Mouse.cpp">
+      <Filter>Engine\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\window\Keyboard.cpp">
+      <Filter>Engine\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\LightSourceComponent.cpp">
+      <Filter>Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\ModelComponent.cpp">
+      <Filter>Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\Textured2DGeometry.cpp">
+      <Filter>Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\graphics\Shader.cpp">
+      <Filter>Engine\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\graphics\Skybox.cpp">
+      <Filter>Engine\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\graphics\Text.cpp">
+      <Filter>Engine\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\graphics\base\Texture.cpp">
+      <Filter>Engine\Graphic\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\graphics\base\VAO.cpp">
+      <Filter>Engine\Graphic\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\graphics\base\VBO.cpp">
+      <Filter>Engine\Graphic\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\system\StateMachine.cpp">
+      <Filter>Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\system\DeviceInfo.cpp">
+      <Filter>Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Console.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>lib src</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>lib src</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>lib src</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>lib src</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_glfw.cpp">
+      <Filter>lib src</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_opengl3.cpp">
+      <Filter>lib src</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>lib src</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXInitialization.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\RigidDynamic.cpp">
+      <Filter>Engine\Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Components\Basic2DGeometry.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\Basic3DGeometry.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\graphics\Billboard.h">
+      <Filter>Engine\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Camera.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\system\Collision.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\system\Color.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\utils\DateTime.h">
+      <Filter>Engine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ECS.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\graphics\Framebuffer.h">
+      <Filter>Engine\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="States\GameState.h">
+      <Filter>Game\States</Filter>
+    </ClInclude>
+    <ClInclude Include="States\MainmenuState.h">
+      <Filter>Game\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\GeometryShapes.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GR_cross_definitions.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Definitions.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\graphics\GraphicLoader.h">
+      <Filter>Engine\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\audio\SoundBuffer.h">
+      <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\audio\SoundDevice.h">
+      <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\audio\SoundSource.h">
+      <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\audio\Listener.h">
+      <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\window\Window.h">
+      <Filter>Engine\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\window\Mouse.h">
+      <Filter>Engine\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\window\Keyboard.h">
+      <Filter>Engine\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\LightSourceComponent.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\ModelComponent.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\Textured2DGeometry.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\TransformComponent.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\utils\Math.h">
+      <Filter>Engine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\graphics\Shader.h">
+      <Filter>Engine\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\graphics\Shapes.h">
+      <Filter>Engine\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\graphics\Skybox.h">
+      <Filter>Engine\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\graphics\Text.h">
+      <Filter>Engine\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\graphics\base\Texture.h">
+      <Filter>Engine\Graphic\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\graphics\base\VAO.h">
+      <Filter>Engine\Graphic\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\graphics\base\VBO.h">
+      <Filter>Engine\Graphic\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\system\StateMachine.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\system\States.hpp">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\utils\Types.h">
+      <Filter>Engine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\system\Vertex.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\system\DeviceInfo.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Console.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\utils\ConfigParser.h">
+      <Filter>Engine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXInitialization.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\RigidDynamic.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{d557b84b-d993-47aa-9cfa-adfd87e3f1b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Components">
+      <UniqueIdentifier>{5e8201d8-5fcc-4da8-b954-9392129e6460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window">
+      <UniqueIdentifier>{cac4e7aa-1598-4444-98cd-35c08168d1d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphic">
+      <UniqueIdentifier>{44f01883-f821-4892-9a16-4da0daf1c1ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Audio">
+      <UniqueIdentifier>{130b7aed-bb2a-4955-bf8a-add936279051}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Utils">
+      <UniqueIdentifier>{f87dfcd4-3309-4a77-ad58-ae3a7b1ddf25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System">
+      <UniqueIdentifier>{89f375fb-d04b-48f4-a800-7bad5253ace1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{35357178-678b-420e-b4fd-6c29dc666dc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\States">
+      <UniqueIdentifier>{ebd98479-cf33-4417-b7b7-751ab00205f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphic\base">
+      <UniqueIdentifier>{423ca3fc-de61-41a3-98cf-31e1866b13f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib src">
+      <UniqueIdentifier>{ef266652-3e33-4edf-8b0c-94eccbcfc880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{2666f830-ece2-4a38-b2d8-cbf18c70dc5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources\Shaders">
+      <UniqueIdentifier>{897c9610-ed32-443b-bc31-e5023f68025d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources\audio">
+      <UniqueIdentifier>{e06d1cf5-6e25-4a74-83af-40a4d1aaa121}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources\fonts">
+      <UniqueIdentifier>{40eefe7d-bfeb-4bd5-a1f7-5855ef2c0c6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources\textures">
+      <UniqueIdentifier>{513df27c-c067-45a2-8465-52228719105a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\utils\ConfigParser.inl">
+      <Filter>Engine\Utils</Filter>
+    </None>
+    <None Include="Core\Shading\windows\Frame.frag">
+      <Filter>resources\Shaders</Filter>
+    </None>
+    <None Include="Core\Shading\windows\Frame.vert">
+      <Filter>resources\Shaders</Filter>
+    </None>
+    <None Include="Core\Shading\windows\lightShader.vert">
+      <Filter>resources\Shaders</Filter>
+    </None>
+    <None Include="Core\Shading\windows\Plane.frag">
+      <Filter>resources\Shaders</Filter>
+    </None>
+    <None Include="Core\Shading\windows\PredefinedShader.frag">
+      <Filter>resources\Shaders</Filter>
+    </None>
+    <None Include="Core\Shading\windows\SkyBox.frag">
+      <Filter>resources\Shaders</Filter>
+    </None>
+    <None Include="Core\Shading\windows\SkyBox.vert">
+      <Filter>resources\Shaders</Filter>
+    </None>
+    <None Include="Core\Shading\windows\Texture2D.vert">
+      <Filter>resources\Shaders</Filter>
+    </None>
+    <None Include="Core\Shading\windows\Object3D.frag" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Core\fonts\arial.ttf">
+      <Filter>resources\fonts</Filter>
+    </Font>
+    <Font Include="Core\fonts\Inconsolata-Light.ttf">
+      <Filter>resources\fonts</Filter>
+    </Font>
+    <Font Include="Core\fonts\StalinistOne-Regular.ttf">
+      <Filter>resources\fonts</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Core\GFX\bg.jpg">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="Core\GFX\bg3.jpeg">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="Core\GFX\no_source.png">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="Core\GFX\PlayerTexture.png">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="Core\GFX\robot.png">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="Core\GFX\SC_texture.bmp">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="Core\GFX\tree.png">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="Core\GFX\wall.jpg">
+      <Filter>resources\textures</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Core\audio\P_hurt.wav">
+      <Filter>resources\audio</Filter>
+    </Media>
+  </ItemGroup>
+</Project>
