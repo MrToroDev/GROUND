@@ -32,6 +32,21 @@ namespace gr {
         return this->shader;
     }
 
+    unsigned int ModelComponent::GetNormalBuffer()
+    {
+        return this->NormalBuffer;
+    }
+
+    unsigned int ModelComponent::GetUVBuffer()
+    {
+        return this->UVBuffer;
+    }
+
+    unsigned int ModelComponent::GetVertexBuffer()
+    {
+        return this->VertexBuffer;
+    }
+
     void ModelComponent::init()
     {
         if (!entity->hasComponent<TransformComponent>()) {
@@ -92,7 +107,7 @@ namespace gr {
 
         model = glm::mat4(1.0f);
         model = glm::translate(model, transform->position);
-        model = glm::rotate(model, transform->angle, glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::rotate(model, transform->angle, transform->angleAxis);
         model = glm::scale(model, transform->size);
 
         shader->setMat4("model", model);

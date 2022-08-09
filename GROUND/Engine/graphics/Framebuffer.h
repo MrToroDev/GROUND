@@ -24,6 +24,7 @@ namespace gr
         void Resize(int width, int height);
 
         Shader* GetShader() const;
+        unsigned int GetTexture() const;
 
     private:
         unsigned int fbo, rbo, screen;

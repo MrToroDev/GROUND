@@ -18,7 +18,6 @@ private:
 	gr::Framebuffer* frame;
 	gr::Text* totalTimeText, * fpsText;
 	gr::Entity* e;
-	gr::Billboard* b;
 
 public:
 	GameState(GameDataRef data);

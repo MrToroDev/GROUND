@@ -53,6 +53,7 @@
     <ClCompile Include="imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui_tables.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
+    <ClCompile Include="Engine\window\Joystick.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PhysXInitialization.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="Engine\window\Mouse.h" />
     <ClInclude Include="Engine\window\Window.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Engine\window\Joystick.h" />
     <ClInclude Include="PhysXInitialization.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Engine\Components\RigidDynamic.h" />

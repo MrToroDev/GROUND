@@ -21,6 +21,7 @@ struct GameData {
 	gr::ConfigFile<int> supported_keys;
 	gr::ConfigFile<int> graphics_settings;
 	gr::ConfigFile<int> audio_settings;
+	gr::Console* debugConsole;
 	float FPS, CPU_MS;
 
 	PhysicWorld pWorld;
@@ -35,7 +36,6 @@ public:
 
 private:
 	GameDataRef _data = std::make_shared<GameData>();
-	gr::Console* _console;
 	bool debugConsole;
 	
 	void initFile();

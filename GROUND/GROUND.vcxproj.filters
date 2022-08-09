@@ -121,6 +121,7 @@
     <ClCompile Include="Engine\Components\RigidDynamic.cpp">
       <Filter>Engine\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\window\Joystick.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Components\Basic2DGeometry.h">
@@ -261,6 +262,7 @@
     <ClInclude Include="Engine\Components\RigidDynamic.h">
       <Filter>Engine\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\window\Joystick.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -340,7 +342,9 @@
     <None Include="Core\Shading\windows\Texture2D.vert">
       <Filter>resources\Shaders</Filter>
     </None>
-    <None Include="Core\Shading\windows\Object3D.frag" />
+    <None Include="Core\Shading\windows\Object3D.frag">
+      <Filter>resources\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Core\fonts\arial.ttf">

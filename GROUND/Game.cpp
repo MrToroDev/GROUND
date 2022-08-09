@@ -102,9 +102,13 @@ void Game::initImGui()
 	io.IniFilename = "settings/ImGui_Settings.ini";
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(_data->window->GetHandle(), true);
+#if _WIN32
+	ImGui_ImplOpenGL3_Init("#version 330 core");
+#else
 	ImGui_ImplOpenGL3_Init("#version 120");
+#endif
 
-	_console = new gr::Console();
+	_data->debugConsole = new gr::Console();
 }
 
 void Game::run()
@@ -162,7 +166,7 @@ void Game::run()
 
 				if (debugConsole)
 				{
-					_console->Draw();
+					_data->debugConsole->Draw(_data->window);
 				}
 
 				_data->window->Clear();
@@ -188,8 +192,9 @@ void Game::run()
 		this->_data->machine.GetActiveState()->destroyGL();
 		gr::Shader::DeletePredefinedShader();
 		gr::SoundDevice::CloseDevice();
-
+		Sleep(10);
 		delete _data->window;
+		delete _data->debugConsole;
 	} catch (std::exception& e) {
 		ERROR_MESSAGE("GROUND", (LPCSTR)GR_TO_CSTRING("Error: ", e.what()));
 	}

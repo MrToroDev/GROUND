@@ -32,6 +32,9 @@ namespace gr {
         void SetLightAttribute(glm::vec3 color, glm::vec3 pos, glm::vec3 camPos, glm::vec3 camFront);
 
         gr::Shader* GetShader();
+        unsigned int GetNormalBuffer();
+        unsigned int GetUVBuffer();
+        unsigned int GetVertexBuffer();
 
         void init() override;
         void draw() override;

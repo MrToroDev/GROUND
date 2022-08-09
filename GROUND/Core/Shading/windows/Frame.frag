@@ -12,6 +12,7 @@ vec4 KernelEffect(sampler2D uTexture, vec2 vTexcoords, float noise);
 
 void main()
 {
-    vec4 pixel = texture(uTexture, PixelateFrame(vTexcoords, 128));
-    FragColor = pixel;
+    vec4 pixel = texture(uTexture, PixelateFrame(vTexcoords, 255)) * vec4(StaticTVNoise(vTexcoords, _clock), 1.0);// * TVScreenEffect(vTexcoords, uTexture);
+    FragColor = texture(uTexture, vTexcoords);
+    FragColor.rgb = pow(FragColor.rgb, vec3(1.0 / 2.2));
 }

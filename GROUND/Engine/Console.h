@@ -1,5 +1,8 @@
 #pragma once
 
+#include "window/Window.h"
+#include <imgui.h>
+
 namespace gr
 {
     /**
@@ -12,6 +15,10 @@ namespace gr
         Console();
         ~Console();
 
-        void Draw();
+        void Draw(gr::Window* win);
+
+    private:
+        char* buf;
+        void* user;
     };
 }

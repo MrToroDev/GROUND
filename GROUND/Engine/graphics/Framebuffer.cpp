@@ -83,4 +83,8 @@ namespace gr
     {
         return this->shader;
     }
+    unsigned int Framebuffer::GetTexture() const
+    {
+        return screen;
+    }
 }

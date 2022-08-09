@@ -5,28 +5,31 @@ layout (location = 2) in vec2 aTexcoord;
 layout (location = 3) in vec3 aNormal;
 layout (location = 4) in vec2 aUV;
 
-out vec2 vTexcoord, vUV; // for basic 2D / 3D objects
-out vec3 vColor, vNormal, FragPos, vPos;
+out VS_OUT {
+    vec2 Texcoord, UV; // for basic 2D / 3D objects
+    vec3 Color, Normal, FragPos, Pos;
+} vs_out;
+
+out VS_LIGHT_OUT {
+    vec3 LightColor, ViewPos, LightPos, ViewFront;
+} vs_light_out;
+
 uniform mat4 projection, model, view;
-
-// Lights attributes
 uniform vec3 lightColor, viewPos, lightPos, viewFront;
-
-out vec3 vLightColor, vViewPos, vLightPos, vViewFront;
 
 void main()
 {
-    vPos = vec3(model * vec4(aPos, 1.0));
-    vTexcoord = aTexcoord;
-    vColor = aColor;
-    vNormal = mat3(transpose(inverse(model))) * aNormal;
-    FragPos = vec3(model * vec4(aPos, 1.0));
-    vUV = aUV;
+    vs_out.Pos = vec3(model * vec4(aPos, 1.0));
+    vs_out.Texcoord = aTexcoord;
+    vs_out.Color = aColor;
+    vs_out.Normal = mat3(transpose(inverse(model))) * aNormal;
+    vs_out.FragPos = vec3(model * vec4(aPos, 1.0));
+    vs_out.UV = aUV;
 
-    vLightColor = lightColor;
-    vViewPos = viewPos;
-    vLightPos = lightPos;
-    vViewFront = viewFront;
+    vs_light_out.LightColor = lightColor;
+    vs_light_out.ViewPos = viewPos;
+    vs_light_out.LightPos = lightPos;
+    vs_light_out.ViewFront = viewFront;
 
     gl_Position = projection * view * model * vec4(aPos, 1.0);
 }
