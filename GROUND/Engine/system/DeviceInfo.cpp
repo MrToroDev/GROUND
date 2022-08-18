@@ -13,12 +13,4 @@ namespace gr
         return _context;
     }
 
-    int GetMemsizeBuffer(unsigned int buffer)
-    {
-        int size = 0;
-        glBindBuffer(GL_ARRAY_BUFFER, buffer);
-        glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
-
-        return size;
-    }
 }

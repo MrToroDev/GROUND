@@ -2,7 +2,7 @@
 #include "../GR_cross_definitions.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include "../graphics/Shapes.h"
-#include "../system/DeviceInfo.h"
+#include "../system/Memory.h"
 
 namespace gr {
 
@@ -58,7 +58,7 @@ namespace gr {
             glBufferData(GL_ARRAY_BUFFER, sizeof(shapes2D::triangle), shapes2D::triangle, GL_STATIC_DRAW);
             break;
         }
-        gr::Log(std::string("Buffer size allocated: ").append(std::to_string(gr::GetMemsizeBuffer(VBO))).append(" bytes").c_str());
+        gr::Log(std::string("Basic2DGeometry -> Buffer size allocated: ").append(std::to_string(gr::Memory::GetBufferSize(VBO))).append(" bytes").c_str());
 
         shader->setVertexAttrib("aPos", 3, GL_FLOAT, sizeof(gr::Vertex), (void*)offsetof(gr::Vertex, position));
         shader->setVertexAttrib("aColor", 3, GL_FLOAT, sizeof(gr::Vertex), (void*)offsetof(gr::Vertex, color));
@@ -95,7 +95,6 @@ namespace gr {
             glDrawArrays(GL_TRIANGLES, 0, 3);
             break;
         }
-        glBindVertexArray(0);
     }
 
     void Basic2DGeometry::destroyGL()

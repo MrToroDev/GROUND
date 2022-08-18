@@ -1,8 +1,10 @@
 #include "Basic3DGeometry.h"
 #include "../GR_cross_definitions.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "../graphics/Shapes.h"
-#include "../system/DeviceInfo.h"
+#include "../system/Memory.h"
+#include <string>
 
 namespace gr {
     Basic3DGeometry::Basic3DGeometry(Basic3DGeometryShapes s, std::string Fshader, std::string Vshader)
@@ -58,12 +60,14 @@ namespace gr {
             break;
         }
 
-        gr::Log(std::string("Buffer size allocated: ").append(std::to_string(gr::GetMemsizeBuffer(VBO))).append(" bytes").c_str());
-
+        glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
         shader->setVertexAttrib("aPos", 3, GL_FLOAT, sizeof(gr::Vertex), (void*)offsetof(gr::Vertex, position));
         shader->setVertexAttrib("aColor", 3, GL_FLOAT, sizeof(gr::Vertex), (void*)offsetof(gr::Vertex, color));
         shader->setVertexAttrib("aNormal", 3, GL_FLOAT, sizeof(gr::Vertex), (void*)offsetof(gr::Vertex, normal));
-        shader->setVertexAttrib("aTexcoord", 2, GL_FLOAT, sizeof(gr::Vertex), (void*)offsetof(gr::Vertex, texCoords));
+    
+        gr::Log(std::string("Basic3DGeometry -> Buffer size allocated: ").append(std::to_string(gr::Memory::GetBufferSize(VBO))).append(" bytes").c_str());
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
     }
 
     void Basic3DGeometry::draw()
@@ -76,14 +80,13 @@ namespace gr {
         shader->setVec3("viewPos", cPos);
         shader->setVec3("viewFront", cFront);
 
-        glBindVertexArray(this->VAO);
-
-        model = glm::mat4(1.0f);
+        glm::mat4 model = glm::mat4(1.0f);
         model = glm::scale(model, transform->size);
         model = glm::translate(model, transform->position);
         model = glm::rotate(model, transform->angle, transform->angleAxis);
         shader->setMat4("model", model);
 
+        glBindVertexArray(this->VAO);
         switch (types)
         {
         case Basic3DGeometryShapes::CUBE:
@@ -100,5 +103,6 @@ namespace gr {
         glDeleteBuffers(1, &this->VBO);
         glDeleteVertexArrays(1, &this->VAO);
         shader->Delete();
+        delete shader;
     }
 }

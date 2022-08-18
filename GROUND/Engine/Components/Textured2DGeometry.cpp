@@ -3,7 +3,7 @@
 #include "../graphics/Shapes.h"
 #include "../graphics/GraphicLoader.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include "../system/DeviceInfo.h"
+#include "../system/Memory.h"
 
 namespace gr
 {
@@ -42,7 +42,7 @@ namespace gr
             glBufferData(GL_ARRAY_BUFFER, sizeof(gr::shapes2D::triangle), shapes2D::triangle, GL_STATIC_DRAW);
         }
 
-        gr::Log(std::string("Buffer size allocated: ").append(std::to_string(gr::GetMemsizeBuffer(_vbo))).append(" bytes").c_str());
+        gr::Log(std::string("Textured2DComponent -> Buffer size allocated: ").append(std::to_string(gr::Memory::GetBufferSize(_vbo))).append(" bytes").c_str());
 
         _shader->setVertexAttrib("aPos", 3, GL_FLOAT, sizeof(gr::Vertex), (void*)offsetof(gr::Vertex, position));
         _shader->setVertexAttrib("aColor", 3, GL_FLOAT, sizeof(gr::Vertex), (void*)offsetof(gr::Vertex, color));
@@ -66,8 +66,6 @@ namespace gr
         } else {
             glDrawArrays(GL_TRIANGLES, 0, 3);
         }
-        glBindVertexArray(0);
-        glBindTexture(GL_TEXTURE_2D, 0);
     }
     
     void Textured2DGeometry::destroyGL()

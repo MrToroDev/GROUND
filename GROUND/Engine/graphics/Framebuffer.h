@@ -21,7 +21,6 @@ namespace gr
 
         // Draw the framebuffer
         void DrawStorage();
-        void Resize(int width, int height);
 
         Shader* GetShader() const;
         unsigned int GetTexture() const;

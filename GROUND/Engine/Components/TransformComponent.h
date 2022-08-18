@@ -8,7 +8,7 @@ namespace gr {
     class TransformComponent : public Component
     {
     public:
-        glm::vec3 position, size, angleAxis;
+        glm::vec3 position, size, angleAxis = glm::vec3(1, 0, 0);
         float angle;
 
         TransformComponent()

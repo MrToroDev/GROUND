@@ -2,7 +2,7 @@
 #include "../graphics/GraphicLoader.h"
 #include "../GR_cross_definitions.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include "../system/DeviceInfo.h"
+#include "../system/Memory.h"
 
 namespace gr {
     ModelComponent::ModelComponent(const char* Modelpath, const char* Texturepath, std::string Fshader, std::string Vshader, unsigned int Tcount)
@@ -71,19 +71,19 @@ namespace gr {
             glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
             glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
              
-            gr::Log(std::string("Vertex Buffer size allocated: ").append(std::to_string(gr::GetMemsizeBuffer(VertexBuffer))).append(" bytes").c_str());
+            gr::Log(std::string("Vertex Buffer size allocated: ").append(std::to_string(gr::Memory::GetBufferSize(VertexBuffer))).append(" bytes").c_str());
 
             glGenBuffers(1, &UVBuffer);
             glBindBuffer(GL_ARRAY_BUFFER, UVBuffer);
             glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
 
-            gr::Log(std::string("UV Buffer size allocated: ").append(std::to_string(gr::GetMemsizeBuffer(UVBuffer))).append(" bytes").c_str());
+            gr::Log(std::string("UV Buffer size allocated: ").append(std::to_string(gr::Memory::GetBufferSize(UVBuffer))).append(" bytes").c_str());
 
             glGenBuffers(1, &NormalBuffer);
             glBindBuffer(GL_ARRAY_BUFFER, NormalBuffer);
             glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
 
-            gr::Log(std::string("Normal Buffer size allocated: ").append(std::to_string(gr::GetMemsizeBuffer(NormalBuffer))).append(" bytes").c_str());
+            gr::Log(std::string("Normal Buffer size allocated: ").append(std::to_string(gr::Memory::GetBufferSize(NormalBuffer))).append(" bytes").c_str());
 
             glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
             shader->setVertexAttrib("aPos", 3, GL_FLOAT, 0, (void*)0);
@@ -124,9 +124,6 @@ namespace gr {
         shader->setInt("uTexture", 0);
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-        glBindVertexArray(0);
-
-        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     void ModelComponent::destroyGL()

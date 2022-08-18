@@ -15,6 +15,7 @@
 #include "Engine/GR_cross_definitions.h"
 #include "Engine/audio/SoundDevice.h"
 #include "Engine/window/Keyboard.h"
+#include "Engine/utils/DateTime.h"
 
 Game::Game(std::string title)
 {
@@ -24,6 +25,7 @@ Game::Game(std::string title)
 		this->initWindow(title);
 		gr::InitOpenGL();
 		this->initImGui();
+		this->initDiscord();
 		_data->pWorld.Initialize(-9.81f);
 		_data->machine.initLoadingScreen();
 		_data->machine.AddState(gr::StatesRef(new GameState(this->_data)));
@@ -78,8 +80,8 @@ void Game::initWindow(std::string title)
 	settings.Fullscreen = _data->graphics_settings["FULLSCREEN"];
 	settings.Resizable = false;
 #if _WIN32
-	settings.majorVersion = 3;
-	settings.minorVersion = 3;
+	settings.majorVersion = 4;
+	settings.minorVersion = 6;
 	settings.CoreProfile = true;
 #else
 	settings.majorVersion = 2;
@@ -103,12 +105,36 @@ void Game::initImGui()
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(_data->window->GetHandle(), true);
 #if _WIN32
-	ImGui_ImplOpenGL3_Init("#version 330 core");
+	ImGui_ImplOpenGL3_Init("#version 460 core");
 #else
 	ImGui_ImplOpenGL3_Init("#version 120");
 #endif
 
 	_data->debugConsole = new gr::Console();
+}
+
+void Game::initDiscord()
+{
+	auto result = discord::Core::Create(1007969098744995880, DiscordCreateFlags_NoRequireDiscord, &_data->dsCore);
+	discord::Activity activity{};
+	activity.SetType(discord::ActivityType::Playing);
+	activity.SetDetails("Testing v0.0.5a");
+	activity.GetAssets().SetLargeImage("ground_app");
+	_data->dsCore->SetLogHook(discord::LogLevel::Debug, [](discord::LogLevel t, const char* text) {
+		if (t == discord::LogLevel::Debug) {
+			gr::Print("[Discord: Debug]", text);
+		}
+		if (t == discord::LogLevel::Info) {
+			gr::Print("[Discord: Info]", text);
+		}
+		if (t == discord::LogLevel::Warn) {
+			gr::LogWarning(text);
+		}
+		if (t == discord::LogLevel::Error) {
+			gr::LogError(text);
+		}
+	});
+	_data->dsCore->ActivityManager().UpdateActivity(activity, [](discord::Result e) {});
 }
 
 void Game::run()
@@ -120,8 +146,15 @@ void Game::run()
 		double previousTime = glfwGetTime();
 		double FPS = 0;
 		std::mutex _mutex;
+
+		glEnable(GL_DEBUG_OUTPUT);
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+		glDebugMessageCallback(DebugProc, nullptr);
+		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 		while (_data->window->IsOpen())
 		{
+			// Update Discord SDK Core
+			_data->dsCore->RunCallbacks();
 			_data->window->PollEvents();
 
 			this->_data->machine.ProcessChanges(*_data->window, _mutex);
@@ -188,6 +221,17 @@ void Game::run()
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 
+		{
+			std::ofstream logFile;
+			std::string file = "logs/log-" + gr::Time::GetDateTime() + ".log";
+			logFile.open(file, std::ios::out);
+			for (auto t : gr::GetLogBuffer()) {
+				logFile << t << std::endl;
+			}
+
+			logFile.close();
+		}
+
 		this->_data->manager.destroyGL();
 		this->_data->machine.GetActiveState()->destroyGL();
 		gr::Shader::DeletePredefinedShader();
@@ -197,5 +241,86 @@ void Game::run()
 		delete _data->debugConsole;
 	} catch (std::exception& e) {
 		ERROR_MESSAGE("GROUND", (LPCSTR)GR_TO_CSTRING("Error: ", e.what()));
+	}
+}
+
+void GLAPIENTRY Game::DebugProc(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+{
+	std::stringstream ss;
+	short color = 0;
+	ss << "[Opengl: ";
+	switch (source)
+	{
+	case GL_DEBUG_SOURCE_API:
+		ss << "DEBUG_SOURCE_API";
+		break;
+	case GL_DEBUG_SOURCE_APPLICATION:
+		ss << "DEBUG_SOURCE_APPLICATION";
+		break;
+	case GL_DEBUG_SOURCE_OTHER:
+		ss << "DEBUG_SOURCE_OTHER";
+		break;
+	case GL_DEBUG_SOURCE_SHADER_COMPILER:
+		ss << "DEBUG_SOURCE_SHADER";
+		break;
+	case GL_DEBUG_SOURCE_THIRD_PARTY:
+		ss << "DEBUG_SOURCE_THIRD-PARTY";
+		break;
+	case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
+		ss << "DEBUG_SOURCE_WINDOWS";
+		break;
+	}
+	switch (type)
+	{
+	case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+		ss << "](DEPRECATED: ";
+		color = 1;
+		break;
+	case GL_DEBUG_TYPE_ERROR:
+		ss << "](ERROR: ";
+		color = 2;
+		break;
+	case GL_DEBUG_TYPE_MARKER:
+		ss << "](MARKER: ";
+		color = 1;
+		break;
+	case GL_DEBUG_TYPE_OTHER:
+		ss << "](OTHER: ";
+		color = 1;
+		break;
+	case GL_DEBUG_TYPE_PERFORMANCE:
+		ss << "](PERFORMANCE: ";
+		color = 1;
+		break;
+
+	default:
+		ss << "](UNKNOWN[" << type << "]: ";
+		color = 0;
+	}
+	switch (severity)
+	{
+	case GL_DEBUG_SEVERITY_HIGH:
+		ss << "HIGH)";
+		break;
+	case GL_DEBUG_SEVERITY_MEDIUM:
+		ss << "MEDIUM)";
+		break;
+	case GL_DEBUG_SEVERITY_LOW:
+		ss << "LOW)";
+		break;
+	case GL_DEBUG_SEVERITY_NOTIFICATION:
+		ss << "NOTIFICATION)";
+		break;
+	}
+	ss << " -> " << message;
+	
+	if (color == 1) { 
+		gr::LogWarning(ss.str().c_str());
+	}
+	else if (color == 2) { 
+		gr::LogError(ss.str().c_str()); 
+	}
+	else {
+		gr::Print("[Debug::API]", ss.str().c_str()); 
 	}
 }

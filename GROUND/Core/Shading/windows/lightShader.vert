@@ -1,4 +1,5 @@
-#version 330 core
+#version 460 core
+
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aColor;
 layout (location = 2) in vec2 aTexcoord;
@@ -19,7 +20,7 @@ uniform vec3 lightColor, viewPos, lightPos, viewFront;
 
 void main()
 {
-    vs_out.Pos = vec3(model * vec4(aPos, 1.0));
+    vs_out.Pos = aPos;
     vs_out.Texcoord = aTexcoord;
     vs_out.Color = aColor;
     vs_out.Normal = mat3(transpose(inverse(model))) * aNormal;

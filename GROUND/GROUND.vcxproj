@@ -19,6 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DiscordSDK\achievement_manager.cpp" />
+    <ClCompile Include="DiscordSDK\activity_manager.cpp" />
+    <ClCompile Include="DiscordSDK\application_manager.cpp" />
+    <ClCompile Include="DiscordSDK\core.cpp" />
+    <ClCompile Include="DiscordSDK\image_manager.cpp" />
+    <ClCompile Include="DiscordSDK\lobby_manager.cpp" />
+    <ClCompile Include="DiscordSDK\network_manager.cpp" />
+    <ClCompile Include="DiscordSDK\overlay_manager.cpp" />
+    <ClCompile Include="DiscordSDK\relationship_manager.cpp" />
+    <ClCompile Include="DiscordSDK\storage_manager.cpp" />
+    <ClCompile Include="DiscordSDK\store_manager.cpp" />
+    <ClCompile Include="DiscordSDK\types.cpp" />
+    <ClCompile Include="DiscordSDK\user_manager.cpp" />
+    <ClCompile Include="DiscordSDK\voice_manager.cpp" />
     <ClCompile Include="Engine\audio\Listener.cpp" />
     <ClCompile Include="Engine\audio\SoundBuffer.cpp" />
     <ClCompile Include="Engine\audio\SoundDevice.cpp" />
@@ -55,6 +69,7 @@
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="Engine\window\Joystick.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Engine\system\Memory.cpp" />
     <ClCompile Include="PhysXInitialization.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Engine\Components\RigidDynamic.cpp" />
@@ -104,6 +119,7 @@
     <ClInclude Include="Engine\window\Window.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Engine\window\Joystick.h" />
+    <ClInclude Include="Engine\system\Memory.h" />
     <ClInclude Include="PhysXInitialization.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Engine\Components\RigidDynamic.h" />
@@ -245,7 +261,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;OpenAL32.lib;sndfile.lib;freetype.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXCooking_64.lib;PhysXFoundation_64.lib;PhysXVehicle_static_64.lib;PhysXTask_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXExtensions_static_64.lib;PhysXCharacterKinematic_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;OpenAL32.lib;sndfile.lib;freetype.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXCooking_64.lib;PhysXFoundation_64.lib;PhysXVehicle_static_64.lib;PhysXTask_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXExtensions_static_64.lib;PhysXCharacterKinematic_static_64.lib;discord_game_sdk.dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

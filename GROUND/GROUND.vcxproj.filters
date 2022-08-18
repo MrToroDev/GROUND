@@ -121,7 +121,54 @@
     <ClCompile Include="Engine\Components\RigidDynamic.cpp">
       <Filter>Engine\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\window\Joystick.cpp" />
+    <ClCompile Include="Engine\window\Joystick.cpp">
+      <Filter>Engine\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\achievement_manager.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\activity_manager.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\application_manager.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\core.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\image_manager.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\lobby_manager.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\network_manager.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\overlay_manager.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\relationship_manager.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\storage_manager.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\store_manager.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\types.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\user_manager.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="DiscordSDK\voice_manager.cpp">
+      <Filter>lib src\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\system\Memory.cpp">
+      <Filter>Engine\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Components\Basic2DGeometry.h">
@@ -262,7 +309,12 @@
     <ClInclude Include="Engine\Components\RigidDynamic.h">
       <Filter>Engine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\window\Joystick.h" />
+    <ClInclude Include="Engine\window\Joystick.h">
+      <Filter>Engine\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\system\Memory.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -312,6 +364,9 @@
     </Filter>
     <Filter Include="resources\textures">
       <UniqueIdentifier>{513df27c-c067-45a2-8465-52228719105a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib src\Discord">
+      <UniqueIdentifier>{1d8bb5f3-d7b6-4ef3-9c93-5889c654c5b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

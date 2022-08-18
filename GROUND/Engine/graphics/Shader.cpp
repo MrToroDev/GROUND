@@ -6,6 +6,7 @@
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
+#include <glm/gtc/type_ptr.hpp>
 #include "../GR_cross_definitions.h"
 
 bool gr::Shader::isPredefinedUsed = false;
@@ -160,13 +161,14 @@ void gr::Shader::LoadFromFile(const char *vertexPath, const char *fragmentPath)
     glAttachShader(ID, vertex);
     glAttachShader(ID, fragment);
     glLinkProgram(ID);
+    glValidateProgram(ID);
     // print linking errors if any
     glGetProgramiv(ID, GL_LINK_STATUS, &success);
     if (!success)
     {
         glGetProgramInfoLog(ID, 512, NULL, infoLog);
         std::stringstream ss;
-        ss << "ERROR::SHADER::PROGRAM::LINKING_FAILED" << "\n"
+        ss << "ERROR::SHADER::PROGRAM::LINKING_FAILED IN FILES: " << fragmentPath << " | " << vertexPath << "\n"
                   << infoLog << std::endl;
         gr::LogError(ss.str().c_str());
     }
@@ -221,6 +223,7 @@ void gr::Shader::LoadFromStream(const char *VertexStream, const char *FragmentSt
     glAttachShader(ID, vertex);
     glAttachShader(ID, fragment);
     glLinkProgram(ID);
+    glValidateProgram(ID);
     // print linking errors if any
     glGetProgramiv(ID, GL_LINK_STATUS, &success);
     if (!success)
@@ -292,17 +295,17 @@ void gr::Shader::setVec4(const std::string &name, float x, float y, float z, flo
 // ------------------------------------------------------------------------
 void gr::Shader::setMat2(const std::string &name, const glm::mat2 &mat) const
 {
-    glUniformMatrix2fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+    glUniformMatrix2fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
 }
 // ------------------------------------------------------------------------
 void gr::Shader::setMat3(const std::string &name, const glm::mat3 &mat) const
 {
-    glUniformMatrix3fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+    glUniformMatrix3fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
 }
 // ------------------------------------------------------------------------
 void gr::Shader::setMat4(const std::string &name, const glm::mat4 &mat) const
 {
-    glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
 }
 
 void gr::Shader::setVertexAttrib(const char* attribName, short size, unsigned type, int stride, const void* pointer)

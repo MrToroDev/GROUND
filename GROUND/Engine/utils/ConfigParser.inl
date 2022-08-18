@@ -1,3 +1,4 @@
+#include "ConfigParser.h"
 namespace gr
 {
     template <typename T>
@@ -22,7 +23,7 @@ namespace gr
             while(std::getline(_file, line)) 
             {
                 line.erase(std::remove_if(line.begin(), line.end(), isspace),line.end());
-                if (line[0] == '#' || line.empty()) continue;
+                if (line[0] == '#' || line.empty() || line[0] == '[') continue;
 
                 auto delimiterPos = line.find("=");
                 auto name = line.substr(0, delimiterPos);
@@ -41,7 +42,7 @@ namespace gr
         }
         _file.close();
     }
-    
+
     template<typename T>
     void ConfigFile<T>::ChangeValues()
     {

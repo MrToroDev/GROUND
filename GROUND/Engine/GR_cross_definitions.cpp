@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include <GLFW/glfw3.h>
 
 namespace gr
 {
@@ -63,7 +64,7 @@ namespace gr
     bool InitOpenGL()
     {
         #ifdef _WIN32
-        if (!gladLoadGL()) {
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
             LogError("Cannot load glad!");
             return false;
         }

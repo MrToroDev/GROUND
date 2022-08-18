@@ -6,6 +6,11 @@ namespace gr
     Window::Window(int width, int height, const char* title, WindowSettings settings)
     {
         GR_ASSERT(glfwInit());
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, settings.majorVersion);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, settings.minorVersion);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, (settings.CoreProfile) ? GLFW_OPENGL_CORE_PROFILE : GLFW_OPENGL_ANY_PROFILE);
+        glfwWindowHint(GLFW_SAMPLES, settings.antialiasing);
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
         if (settings.Fullscreen)
         {
             _window = glfwCreateWindow(width, height, title, glfwGetPrimaryMonitor(), NULL);
@@ -15,10 +20,6 @@ namespace gr
             _window = glfwCreateWindow(width, height, title, NULL, NULL);
         }
         GR_ASSERT(_window);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, settings.majorVersion);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, settings.minorVersion);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, (settings.CoreProfile) ? GLFW_OPENGL_CORE_PROFILE : GLFW_OPENGL_ANY_PROFILE);
-        glfwWindowHint(GLFW_SAMPLES, settings.antialiasing);
         glfwSetWindowAttrib(_window, GLFW_RESIZABLE, settings.Resizable);
         glfwMakeContextCurrent(_window);
         if (settings.Vsync)

@@ -1,7 +1,7 @@
 #include "LightSourceComponent.h"
 #include "../GR_cross_definitions.h"
 #include "../graphics/Shapes.h"
-#include "../system/DeviceInfo.h"
+#include "../system/Memory.h"
 
 namespace gr {
 
@@ -9,7 +9,7 @@ namespace gr {
     {
         const char* vShader = R"END(
             
-            #version 330 core
+            #version 460 core
             layout(location=0) in vec3 aPos;
 
             uniform mat4 projection, view, model;
@@ -23,7 +23,7 @@ namespace gr {
         
         const char* fShader = R"END(
             
-            #version 330 core
+            #version 460 core
 
             uniform vec3 lightColor;
 
@@ -53,7 +53,7 @@ namespace gr {
         glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(shapes3D::cube), shapes3D::cube, GL_STATIC_DRAW);
 
-        gr::Log(std::string("Buffer size allocated: ").append(std::to_string(gr::GetMemsizeBuffer(VBO))).append(" bytes").c_str());
+        gr::Log(std::string("LightComponent -> Buffer size allocated: ").append(std::to_string(gr::Memory::GetBufferSize(VBO))).append(" bytes").c_str());
 
         shader->setVertexAttrib("aPos", 3, GL_FLOAT, sizeof(gr::Vertex), (void*)offsetof(gr::Vertex, position));
     }
@@ -74,7 +74,6 @@ namespace gr {
 
         glBindVertexArray(this->VAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
-        glBindVertexArray(0);
     }
 
     void LightSourceComponent::destroyGL()

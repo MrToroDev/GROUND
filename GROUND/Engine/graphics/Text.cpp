@@ -11,7 +11,7 @@ namespace gr
     {
 #ifdef _WIN32
         std::string V = R"END(
-            #version 330 core
+            #version 460 core
             layout(location = 0) in vec4 vertex;
 
             uniform mat4 projection;
@@ -27,7 +27,7 @@ namespace gr
         )END";
 
         std::string F = R"END(
-            #version 330 core
+            #version 460 core
             out vec4 FragColor;
 
             in vec2 vTexcoords;
@@ -179,7 +179,7 @@ namespace gr
         for (c = _textString.begin(); c != _textString.end(); c++)
         {
             Character ch = this->_chars[*c];
-
+            
             float xpos = pos.x + ch.Bearing.x * _scale;
             float ypos = pos.y - (ch.Size.y - ch.Bearing.y) * _scale;
 
@@ -208,5 +208,6 @@ namespace gr
         }
         glBindVertexArray(0);
         glBindTexture(GL_TEXTURE_2D, 0);
+        glUseProgram(0);
     }
 }

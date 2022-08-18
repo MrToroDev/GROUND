@@ -75,5 +75,5 @@ gr::Camera* Player::GetCamera() const
 
 gr::TransformComponent* Player::GetTransform() const
 {
-    return new gr::TransformComponent(camera->Position.x, camera->Position.y, camera->Position.z, glm::vec3(0.5, 0.5, 0.5));
+    return new gr::TransformComponent(camera->Position.x, camera->Position.y, camera->Position.z, glm::vec3(0.5, 1.0, 0.5));
 }

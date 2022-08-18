@@ -16,8 +16,9 @@ private:
 	GameDataRef _data;
 	Player* player;
 	gr::Framebuffer* frame;
-	gr::Text* totalTimeText, * fpsText;
-	gr::Entity* e;
+	gr::Text* totalTimeText, * fpsText, * vramText;
+	gr::Entity* cube;
+	gr::Billboard* b;
 
 public:
 	GameState(GameDataRef data);

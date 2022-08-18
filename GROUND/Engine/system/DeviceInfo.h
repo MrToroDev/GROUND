@@ -18,9 +18,5 @@ namespace gr
      */
     const GLubyte* GetDeviceInfo(const int T);
 
-    /*
-     * @brief Return the size of the buffer in bytes
-     * @param buffer is the buffer that we want to take the size
-    */
-    int GetMemsizeBuffer(unsigned int buffer);
+    
 }

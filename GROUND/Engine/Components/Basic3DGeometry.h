@@ -10,7 +10,7 @@ namespace gr {
     {
     private:
         TransformComponent* transform;
-        glm::mat4 proj, view, model;
+        glm::mat4 proj, view;
         unsigned int VAO, VBO;
         gr::Shader* shader;
         Basic3DGeometryShapes types;
