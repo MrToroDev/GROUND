@@ -41,7 +41,6 @@
     <ClCompile Include="Engine\Components\Basic3DGeometry.cpp" />
     <ClCompile Include="Engine\Components\LightSourceComponent.cpp" />
     <ClCompile Include="Engine\Components\ModelComponent.cpp" />
-    <ClCompile Include="Engine\Components\Textured2DGeometry.cpp" />
     <ClCompile Include="Engine\Console.cpp" />
     <ClCompile Include="Engine\graphics\base\Texture.cpp" />
     <ClCompile Include="Engine\graphics\base\VAO.cpp" />
@@ -89,7 +88,6 @@
     <ClInclude Include="Engine\Components\GeometryShapes.h" />
     <ClInclude Include="Engine\Components\LightSourceComponent.h" />
     <ClInclude Include="Engine\Components\ModelComponent.h" />
-    <ClInclude Include="Engine\Components\Textured2DGeometry.h" />
     <ClInclude Include="Engine\Components\TransformComponent.h" />
     <ClInclude Include="Engine\Console.h" />
     <ClInclude Include="Engine\ECS.h" />
@@ -127,34 +125,35 @@
     <ClInclude Include="States\MainmenuState.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\Shading\windows\Frame.frag" />
-    <None Include="Core\Shading\windows\Frame.vert" />
-    <None Include="Core\Shading\windows\lightShader.vert" />
-    <None Include="Core\Shading\windows\Object3D.frag" />
-    <None Include="Core\Shading\windows\Plane.frag" />
-    <None Include="Core\Shading\windows\PredefinedShader.frag" />
-    <None Include="Core\Shading\windows\SkyBox.frag" />
-    <None Include="Core\Shading\windows\SkyBox.vert" />
-    <None Include="Core\Shading\windows\Texture2D.vert" />
+    <None Include="Assets\model\Sphere.fbx" />
+    <None Include="Assets\Shading\windows\Frame.frag" />
+    <None Include="Assets\Shading\windows\Frame.vert" />
+    <None Include="Assets\Shading\windows\lightShader.vert" />
+    <None Include="Assets\Shading\windows\Object3D.frag" />
+    <None Include="Assets\Shading\windows\Plane.frag" />
+    <None Include="Assets\Shading\windows\PredefinedShader.frag" />
+    <None Include="Assets\Shading\windows\SkyBox.frag" />
+    <None Include="Assets\Shading\windows\SkyBox.vert" />
+    <None Include="Assets\Shading\windows\Texture2D.vert" />
     <None Include="Engine\utils\ConfigParser.inl" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Core\audio\P_hurt.wav" />
+    <Media Include="Assets\audio\P_hurt.wav" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="Core\fonts\arial.ttf" />
-    <Font Include="Core\fonts\Inconsolata-Light.ttf" />
-    <Font Include="Core\fonts\StalinistOne-Regular.ttf" />
+    <Font Include="Assets\fonts\arial.ttf" />
+    <Font Include="Assets\fonts\Inconsolata-Light.ttf" />
+    <Font Include="Assets\fonts\StalinistOne-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Core\GFX\bg.jpg" />
-    <Image Include="Core\GFX\bg3.jpeg" />
-    <Image Include="Core\GFX\no_source.png" />
-    <Image Include="Core\GFX\PlayerTexture.png" />
-    <Image Include="Core\GFX\robot.png" />
-    <Image Include="Core\GFX\SC_texture.bmp" />
-    <Image Include="Core\GFX\tree.png" />
-    <Image Include="Core\GFX\wall.jpg" />
+    <Image Include="Assets\GFX\bg.jpg" />
+    <Image Include="Assets\GFX\bg3.jpeg" />
+    <Image Include="Assets\GFX\no_source.png" />
+    <Image Include="Assets\GFX\PlayerTexture.png" />
+    <Image Include="Assets\GFX\robot.png" />
+    <Image Include="Assets\GFX\SC_texture.bmp" />
+    <Image Include="Assets\GFX\tree.png" />
+    <Image Include="Assets\GFX\wall.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -260,8 +259,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;OpenAL32.lib;sndfile.lib;freetype.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXCooking_64.lib;PhysXFoundation_64.lib;PhysXVehicle_static_64.lib;PhysXTask_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXExtensions_static_64.lib;PhysXCharacterKinematic_static_64.lib;discord_game_sdk.dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\libs\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;OpenAL32.lib;sndfile.lib;freetype.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXCooking_64.lib;PhysXFoundation_64.lib;PhysXVehicle_static_64.lib;PhysXTask_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXExtensions_static_64.lib;PhysXCharacterKinematic_static_64.lib;discord_game_sdk.dll.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -280,8 +279,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;OpenAL32.lib;sndfile.lib;freetype.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXCooking_64.lib;PhysXFoundation_64.lib;PhysXVehicle_static_64.lib;PhysXTask_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXExtensions_static_64.lib;PhysXCharacterKinematic_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\libs\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;OpenAL32.lib;sndfile.lib;freetype.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXCooking_64.lib;PhysXFoundation_64.lib;PhysXVehicle_static_64.lib;PhysXTask_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXExtensions_static_64.lib;PhysXCharacterKinematic_static_64.lib;discord_game_sdk.dll.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

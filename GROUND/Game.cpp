@@ -32,27 +32,6 @@ Game::Game(std::string title)
 
 		debugConsole = false;
 
-		{
-			std::stringstream ss;
-			ss << "DEVICE INFO:" << std::endl
-			   << "  -VENDOR: " << gr::GetDeviceInfo(gr::DeviceInfoTypes::VENDOR) << std::endl
-			   << "  -VERSION: " << gr::GetDeviceInfo(gr::DeviceInfoTypes::VERSION) << std::endl
-			   << "  -GLSL VERSION: " << gr::GetDeviceInfo(gr::DeviceInfoTypes::SHADING_LANGUAGE_VERSION) << std::endl
-			   << "  -RENDERER: " << gr::GetDeviceInfo(gr::DeviceInfoTypes::RENDERER) << std::endl;
-			gr::Print("[INFO][GPU]", ss.str().c_str());
-		}
-		{
-			std::stringstream ss;
-			ss << "all audio devices: " << std::endl
-			   << "-----------------------" << std::endl;
-			for (auto e : gr::SoundDevice::GetDevices())
-			{
-				ss << e << std::endl;
-			}
-			ss << "-----------------------" << std::endl;
-			gr::Print("[INFO][AUDIO]", ss.str().c_str());
-		}
-
 		this->run();
 	}
 	catch (std::exception &e)
@@ -60,6 +39,16 @@ Game::Game(std::string title)
 		std::cout << "ERROR! something went wrong!" << std::endl
 				  << "Error: " << e.what() << std::endl;
 		ERROR_MESSAGE("GROUND", (LPCSTR)GR_TO_CSTRING("Error: ", e.what()));
+		{
+			std::ofstream logFile;
+			std::string file = "logs/log-" + gr::Time::GetDateTime() + ".log";
+			logFile.open(file, std::ios::out);
+			for (auto t : gr::GetLogBuffer()) {
+				logFile << t << std::endl;
+			}
+
+			logFile.close();
+		}
 		return;
 	}
 }
@@ -115,25 +104,15 @@ void Game::initImGui()
 
 void Game::initDiscord()
 {
-	auto result = discord::Core::Create(1007969098744995880, DiscordCreateFlags_NoRequireDiscord, &_data->dsCore);
+	auto result = discord::Core::Create(1007969098744995880, (uint64_t)discord::CreateFlags::NoRequireDiscord, &_data->dsCore);
 	discord::Activity activity{};
 	activity.SetType(discord::ActivityType::Playing);
 	activity.SetDetails("Testing v0.0.5a");
 	activity.GetAssets().SetLargeImage("ground_app");
-	_data->dsCore->SetLogHook(discord::LogLevel::Debug, [](discord::LogLevel t, const char* text) {
-		if (t == discord::LogLevel::Debug) {
-			gr::Print("[Discord: Debug]", text);
-		}
-		if (t == discord::LogLevel::Info) {
-			gr::Print("[Discord: Info]", text);
-		}
-		if (t == discord::LogLevel::Warn) {
-			gr::LogWarning(text);
-		}
-		if (t == discord::LogLevel::Error) {
-			gr::LogError(text);
-		}
-	});
+	_data->dsCore->SetLogHook(discord::LogLevel::Debug, [](discord::LogLevel t, const char* text) { gr::Print("[Discord: Debug]", text); });
+	_data->dsCore->SetLogHook(discord::LogLevel::Info, [](discord::LogLevel t, const char* text) { gr::Print("[Discord: Info]", text); });
+	_data->dsCore->SetLogHook(discord::LogLevel::Warn, [](discord::LogLevel t, const char* text) { gr::LogWarning(text); });
+	_data->dsCore->SetLogHook(discord::LogLevel::Error, [](discord::LogLevel t, const char* text) { gr::LogError(text); });
 	_data->dsCore->ActivityManager().UpdateActivity(activity, [](discord::Result e) {});
 }
 
@@ -240,6 +219,16 @@ void Game::run()
 		delete _data->window;
 		delete _data->debugConsole;
 	} catch (std::exception& e) {
+		{
+			std::ofstream logFile;
+			std::string file = "logs/log-" + gr::Time::GetDateTime() + ".log";
+			logFile.open(file, std::ios::out);
+			for (auto t : gr::GetLogBuffer()) {
+				logFile << t << std::endl;
+			}
+
+			logFile.close();
+		}
 		ERROR_MESSAGE("GROUND", (LPCSTR)GR_TO_CSTRING("Error: ", e.what()));
 	}
 }

@@ -11,12 +11,25 @@ namespace gr
      * 
      * This only support OBJ file extension, and the model must be exported with Normals and with
      * Triangles
+     * 
+     * @deprecated See loadAssimp for 3D loading model
      */
     bool loadOBJ(
         const char *path,
         std::vector<glm::vec3> &out_vertices,
         std::vector<glm::vec2> &out_uvs,
         std::vector<glm::vec3> &out_normals);
+
+    /**
+    * @brief load 3d models using assimp
+    */
+    bool loadAssimp(
+        const char* path,
+        std::vector<unsigned short>& indices,
+        std::vector<glm::vec3>& vertices,
+        std::vector<glm::vec2>& uvs,
+        std::vector<glm::vec3>& normals
+    );
 
     /**
      * @brief This function load a 2D texture

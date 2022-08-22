@@ -20,6 +20,11 @@ namespace gr
 		*/
 		static int VRAMtotalSize();
 		/*
+		* @brief Return the current available amount of VRAM on the GPU
+		* @return size in kb
+		*/
+		static int VRAMcurrentAvailable();
+		/*
 		* @brief Return the current amount of VRAM used on the GPU
 		* @return size in kb
 		*/

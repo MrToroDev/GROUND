@@ -5,12 +5,14 @@
 #include "../system/Memory.h"
 
 namespace gr {
-    ModelComponent::ModelComponent(const char* Modelpath, const char* Texturepath, std::string Fshader, std::string Vshader, unsigned int Tcount)
+    ModelComponent::ModelComponent(const char* Modelpath, std::vector<Texture> textures, std::string Fshader, std::string Vshader)
     {
-        res = gr::loadOBJ(Modelpath, this->vertices, this->uvs, this->normals);
+        // Deprecated!
+        //res = gr::loadOBJ(Modelpath, this->vertices, this->uvs, this->normals);
+        
+        res = gr::loadAssimp(Modelpath, indices, vertices, uvs, normals);
         this->shader = new gr::Shader(Vshader.c_str(), Fshader.c_str());
-        this->TextureCount = Tcount;
-        this->TexturePath = Texturepath;
+        this->texture = textures;
     }
 
     void ModelComponent::SetProjectionView(glm::mat4 p, glm::mat4 v)
@@ -19,12 +21,9 @@ namespace gr {
         this->view = v;
     }
 
-    void ModelComponent::SetLightAttribute(glm::vec3 color, glm::vec3 pos, glm::vec3 camPos, glm::vec3 camFront)
+    void ModelComponent::SetLight(Light light)
     {
-        this->lColor = color;
-        this->lPos = pos;
-        this->cPos = camPos;
-        this->cFront = camFront;
+        this->light = light;
     }
 
     gr::Shader* ModelComponent::GetShader()
@@ -60,8 +59,6 @@ namespace gr {
         }
         else
         {
-            TextureID = gr::LoadTexture2D(TexturePath.c_str());
-
             glGenVertexArrays(1, &VAO);
             glBindVertexArray(VAO);
 
@@ -85,12 +82,16 @@ namespace gr {
 
             gr::Log(std::string("Normal Buffer size allocated: ").append(std::to_string(gr::Memory::GetBufferSize(NormalBuffer))).append(" bytes").c_str());
 
+            glGenBuffers(1, &IndicesBuffer);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesBuffer);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned short), &indices[0], GL_STATIC_DRAW);
+
             glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
             shader->setVertexAttrib("aPos", 3, GL_FLOAT, 0, (void*)0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
             glBindBuffer(GL_ARRAY_BUFFER, UVBuffer);
-            shader->setVertexAttrib("aUV", 3, GL_FLOAT, 0, (void*)0);
+            shader->setVertexAttrib("aUV", 2, GL_FLOAT, 0, (void*)0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
             glBindBuffer(GL_ARRAY_BUFFER, NormalBuffer);
@@ -114,16 +115,41 @@ namespace gr {
         shader->setMat4("projection", projection);
         shader->setMat4("view", view);
 
-        shader->setVec3("lightPos", lPos);
-        shader->setVec3("lightColor", lColor);
-        shader->setVec3("viewPos", cPos);
-        shader->setVec3("viewFront", cFront);
+        shader->setVec3("lightColor", light.color);
+        shader->setVec3("lightPos", light.position);
+        shader->setVec3("viewPos", light.cameraPos);
+        shader->setVec3("viewFront", light.front);
 
-        glActiveTexture(TextureCount);
-        glBindTexture(GL_TEXTURE_2D, TextureID);
-        shader->setInt("uTexture", 0);
+        unsigned int diffuseNr = 1;
+        unsigned int specularNr = 1;
+        unsigned int normalNr = 1;
+
+        for (unsigned int i = 0; i < texture.size(); i++) {
+            glActiveTexture(GL_TEXTURE0 + i);
+            std::string number;
+            std::string name = texture[i].type;
+
+            if (name  == "diffuse") {
+                number = std::to_string(diffuseNr++);
+            }
+            else if (name == "specular") {
+                number = std::to_string(specularNr++);
+            }
+            else if (name == "normal") {
+                number = std::to_string(normalNr++);
+            }
+
+            shader->setInt("texture_" + name + number, i);
+
+            glBindTexture(GL_TEXTURE_2D, texture[i].ID);
+        }
+        glActiveTexture(GL_TEXTURE0);
+        
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesBuffer);
+        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_SHORT, 0);
+        glBindVertexArray(0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
     void ModelComponent::destroyGL()
@@ -131,8 +157,11 @@ namespace gr {
         glDeleteBuffers(1, &NormalBuffer);
         glDeleteBuffers(1, &UVBuffer);
         glDeleteBuffers(1, &VertexBuffer);
+        glDeleteBuffers(1, &IndicesBuffer);
         glDeleteVertexArrays(1, &VAO);
-        glDeleteTextures(1, &TextureID);
+        for (auto e : texture) {
+            glDeleteTextures(1, &e.ID);
+        }
         shader->Delete();
 
         delete shader;

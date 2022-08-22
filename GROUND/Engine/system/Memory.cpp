@@ -21,9 +21,18 @@ int gr::Memory::VRAMtotalSize()
     return kb;
 }
 
+int gr::Memory::VRAMcurrentAvailable()
+{
+    GLint Usagekb = 0;
+    glGetIntegerv(GL_GPU_MEM_INFO_CURRENT_AVAILABLE_MEM_NVX, &Usagekb);
+    return Usagekb;
+}
+
 int gr::Memory::VRAMcurrentUsage()
 {
-    GLint kb = 0;
-    glGetIntegerv(GL_GPU_MEM_INFO_CURRENT_AVAILABLE_MEM_NVX, &kb);
-    return kb;
+    GLint Usagekb = 0;
+    glGetIntegerv(GL_GPU_MEM_INFO_CURRENT_AVAILABLE_MEM_NVX, &Usagekb);
+    GLint Totalkb = 0;
+    glGetIntegerv(GL_GPU_MEM_INFO_TOTAL_AVAILABLE_MEM_NVX, &Totalkb);
+    return Totalkb - Usagekb;
 }

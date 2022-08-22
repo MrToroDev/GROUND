@@ -17,7 +17,7 @@ private:
 	Player* player;
 	gr::Framebuffer* frame;
 	gr::Text* totalTimeText, * fpsText, * vramText;
-	gr::Entity* cube;
+	gr::Entity* cube, * test;
 	gr::Billboard* b;
 
 public:

@@ -1,7 +1,7 @@
 #pragma once
 
-#define LINUX_SHADING_PATH   "Core/Shading/linux/"
-#define WINDOWS_SHADING_PATH "Core/Shading/windows/"
+#define LINUX_SHADING_PATH   "Assets/Shading/linux/"
+#define WINDOWS_SHADING_PATH "Assets/Shading/windows/"
 
 #ifdef _WIN32
 #define ERROR_MESSAGE(caption, message) MessageBoxA(NULL, message, caption, MB_OK | MB_ICONERROR)

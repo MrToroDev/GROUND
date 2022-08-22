@@ -17,7 +17,7 @@ StateMachine::~StateMachine()
 
 void StateMachine::initLoadingScreen()
 {
-    loading_text = new Text(glm::vec2(500, 500), glm::vec2(0, 0), "Loading...", "Core/fonts/arial.ttf", 1.0);
+    loading_text = new Text(glm::vec2(500, 500), glm::vec2(0, 0), "Loading...", "Assets/fonts/arial.ttf", 1.0);
 }
 
 void StateMachine::AddState(StatesRef newState, bool isReplacing)

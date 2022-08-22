@@ -27,18 +27,25 @@ void GameState::init()
     player = new Player(_data->manager, _data->supported_keys);
     player->Init();
     
-    totalTimeText = new gr::Text(glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()), glm::vec2(0, 0), "lorem ipsum", "Core/fonts/arcade_classic.ttf", 0.25f);
+    totalTimeText = new gr::Text(glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()), glm::vec2(0, 0), "lorem ipsum", "Assets/fonts/arcade_classic.ttf", 0.25f);
     totalTimeText->SetColor(gr::Color(1, 1, 1));
-    vramText = new gr::Text(glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()), glm::vec2(0, 10), "lorem ipsum", "Core/fonts/arcade_classic.ttf", 0.25f);
+    vramText = new gr::Text(glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()), glm::vec2(0, 10), "lorem ipsum", "Assets/fonts/arcade_classic.ttf", 0.25f);
     vramText->SetColor(gr::Color(1, 1, 1));
-    fpsText = new gr::Text(glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()), glm::vec2(0, 20), "lorem ipsum", "Core/fonts/arcade_classic.ttf", 0.25f);
+    fpsText = new gr::Text(glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()), glm::vec2(0, 20), "lorem ipsum", "Assets/fonts/arcade_classic.ttf", 0.25f);
     fpsText->SetColor(gr::Color(1, 1, 1));
 
     cube = &_data->manager.addEntity();
     cube->addComponent<gr::TransformComponent>(0, 0, 0, glm::vec3(1), 0);
     cube->addComponent<gr::Basic3DGeometry>(gr::Basic3DGeometryShapes::CUBE, GetShadingPath("Object3D.frag"), GetShadingPath("lightShader.vert"));
 
-
+    test = &_data->manager.addEntity();
+    test->addComponent<gr::TransformComponent>(-2, 0, -2, glm::vec3(/*0.0078125*/1), 0);
+    std::vector<gr::Texture> t = {
+        gr::Texture(gr::LoadTexture2D("Assets/GFX/test/brick_normal.jpg"), "normal"),
+        gr::Texture(gr::LoadTexture2D("Assets/GFX/test/brick_diffuse.jpg"), "diffuse"),
+        gr::Texture(gr::LoadTexture2D("Assets/GFX/test/brick_specular.jpg"), "specular"),
+    };
+    test->addComponent<gr::ModelComponent>("Assets/model/Sphere.fbx", t, GetShadingPath("Object3D.frag"), GetShadingPath("lightShader.vert"));
     
     b = new gr::Billboard(GetShadingPath("lightShader.vert"), GetShadingPath("Plane.frag"), "??");
 
@@ -52,6 +59,9 @@ void GameState::init()
 void GameState::update(float deltaTime)
 {
     player->Update(deltaTime, _data->window);
+
+    test->getComponent<gr::TransformComponent>().angleAxis = glm::vec3(0, 1, 0);
+    test->getComponent<gr::TransformComponent>().angle += 0.05;
 
     std::stringstream ss, ss2, ss3;
     ss << "CPU:" << _data->CPU_MS;
@@ -84,6 +94,19 @@ void GameState::draw()
         player->GetProjection(_data->window->GetWidth(), _data->window->GetHeight()),
         player->GetView()
     );
+
+    test->getComponent<gr::ModelComponent>().SetProjectionView(
+        player->GetProjection(_data->window->GetWidth(), _data->window->GetHeight()),
+        player->GetView()
+    );
+
+    gr::Light l;
+    l.cameraPos = player->GetTransform()->position;
+    l.color = glm::vec3(1);
+    l.front = player->GetCamera()->Front;
+    l.position = player->GetTransform()->position;
+
+    test->getComponent<gr::ModelComponent>().SetLight(l);
 }
 
 void GameState::AfterDraw()

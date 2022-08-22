@@ -64,9 +64,6 @@
     <ClCompile Include="Engine\Components\ModelComponent.cpp">
       <Filter>Engine\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Components\Textured2DGeometry.cpp">
-      <Filter>Engine\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\graphics\Shader.cpp">
       <Filter>Engine\Graphic</Filter>
     </ClCompile>
@@ -252,9 +249,6 @@
     <ClInclude Include="Engine\Components\ModelComponent.h">
       <Filter>Engine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Components\Textured2DGeometry.h">
-      <Filter>Engine\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Components\TransformComponent.h">
       <Filter>Engine\Components</Filter>
     </ClInclude>
@@ -373,73 +367,74 @@
     <None Include="Engine\utils\ConfigParser.inl">
       <Filter>Engine\Utils</Filter>
     </None>
-    <None Include="Core\Shading\windows\Frame.frag">
+    <None Include="Assets\Shading\windows\Frame.frag">
       <Filter>resources\Shaders</Filter>
     </None>
-    <None Include="Core\Shading\windows\Frame.vert">
+    <None Include="Assets\Shading\windows\Frame.vert">
       <Filter>resources\Shaders</Filter>
     </None>
-    <None Include="Core\Shading\windows\lightShader.vert">
+    <None Include="Assets\Shading\windows\lightShader.vert">
       <Filter>resources\Shaders</Filter>
     </None>
-    <None Include="Core\Shading\windows\Plane.frag">
+    <None Include="Assets\Shading\windows\Plane.frag">
       <Filter>resources\Shaders</Filter>
     </None>
-    <None Include="Core\Shading\windows\PredefinedShader.frag">
+    <None Include="Assets\Shading\windows\PredefinedShader.frag">
       <Filter>resources\Shaders</Filter>
     </None>
-    <None Include="Core\Shading\windows\SkyBox.frag">
+    <None Include="Assets\Shading\windows\SkyBox.frag">
       <Filter>resources\Shaders</Filter>
     </None>
-    <None Include="Core\Shading\windows\SkyBox.vert">
+    <None Include="Assets\Shading\windows\SkyBox.vert">
       <Filter>resources\Shaders</Filter>
     </None>
-    <None Include="Core\Shading\windows\Texture2D.vert">
+    <None Include="Assets\Shading\windows\Texture2D.vert">
       <Filter>resources\Shaders</Filter>
     </None>
-    <None Include="Core\Shading\windows\Object3D.frag">
+    <None Include="Assets\Shading\windows\Object3D.frag">
       <Filter>resources\Shaders</Filter>
     </None>
+    <None Include="Assets\model\Sphere.fbx" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="Core\fonts\arial.ttf">
+    <Font Include="Assets\fonts\arial.ttf">
       <Filter>resources\fonts</Filter>
     </Font>
-    <Font Include="Core\fonts\Inconsolata-Light.ttf">
+    <Font Include="Assets\fonts\Inconsolata-Light.ttf">
       <Filter>resources\fonts</Filter>
     </Font>
-    <Font Include="Core\fonts\StalinistOne-Regular.ttf">
+    <Font Include="Assets\fonts\StalinistOne-Regular.ttf">
       <Filter>resources\fonts</Filter>
     </Font>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Core\GFX\bg.jpg">
+    <Image Include="Assets\GFX\bg.jpg">
       <Filter>resources\textures</Filter>
     </Image>
-    <Image Include="Core\GFX\bg3.jpeg">
+    <Image Include="Assets\GFX\bg3.jpeg">
       <Filter>resources\textures</Filter>
     </Image>
-    <Image Include="Core\GFX\no_source.png">
+    <Image Include="Assets\GFX\no_source.png">
       <Filter>resources\textures</Filter>
     </Image>
-    <Image Include="Core\GFX\PlayerTexture.png">
+    <Image Include="Assets\GFX\PlayerTexture.png">
       <Filter>resources\textures</Filter>
     </Image>
-    <Image Include="Core\GFX\robot.png">
+    <Image Include="Assets\GFX\robot.png">
       <Filter>resources\textures</Filter>
     </Image>
-    <Image Include="Core\GFX\SC_texture.bmp">
+    <Image Include="Assets\GFX\SC_texture.bmp">
       <Filter>resources\textures</Filter>
     </Image>
-    <Image Include="Core\GFX\tree.png">
+    <Image Include="Assets\GFX\tree.png">
       <Filter>resources\textures</Filter>
     </Image>
-    <Image Include="Core\GFX\wall.jpg">
+    <Image Include="Assets\GFX\wall.jpg">
       <Filter>resources\textures</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Core\audio\P_hurt.wav">
+    <Media Include="Assets\audio\P_hurt.wav">
       <Filter>resources\audio</Filter>
     </Media>
   </ItemGroup>
