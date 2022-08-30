@@ -6,7 +6,6 @@
 
 #include "../window/Window.h"
 #include "States.hpp"
-#include "../graphics/Text.h"
 
 namespace gr
 {
@@ -18,19 +17,17 @@ namespace gr
 	public:
 		StateMachine();
 		~StateMachine();
-		void initLoadingScreen();
 
 		void AddState(StatesRef newState, bool isReplacing = true);
 		void RemoveState();
 
-		void ProcessChanges(gr::Window& win, std::mutex& mutex);
+		void ProcessChanges();
 
 		StatesRef &GetActiveState();
 
 	private:
 		std::stack<StatesRef> _states;
 		StatesRef _newState;
-		Text* loading_text;
 
 		bool _isAdding;
 		bool _isReplacing;

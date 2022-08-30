@@ -1,7 +1,7 @@
 #include "MainmenuState.h"
 #include "GameState.h"
 #include "../Engine/window/Keyboard.h"
-#include <imgui.h>
+#include "../Engine/graphics/GraphicLoader.h"
 
 MainmenuState::MainmenuState(GameDataRef data)
     : _data(data)
@@ -10,29 +10,11 @@ MainmenuState::MainmenuState(GameDataRef data)
 
 void MainmenuState::init()
 {
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    _data->audio_settings->read(audio);
+    _data->graphic_settings->read(graphic);
+    _data->keys_settings->read(key);
 
-    loading = false;
 
-    title = new gr::Text(
-        glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()),
-        glm::vec2(_data->window->GetWidth() / 2 - 150, 700),
-        "GROUND", "Core/fonts/StalinistOne-Regular.ttf",
-        1);
-    title->SetColor(gr::colors::yellow);
-    start_text = new gr::Text(
-        glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()),
-        glm::vec2(_data->window->GetWidth() / 2 - 210, 10),
-        "Press Enter to start", "Core/fonts/inconsolata-Light.ttf",
-        1);
-    start_text->SetColor(gr::colors::white);
-    options_text = new gr::Text(
-        glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()),
-        glm::vec2(_data->window->GetWidth() / 2 - 210, 200),
-        "Press P to open options", "Core/fonts/inconsolata-Light.ttf",
-        1);
-    options_text->SetColor(gr::colors::white);
     _options = false;
     _audio_sett = false;
     _display_sett = true;
@@ -43,109 +25,139 @@ void MainmenuState::init()
         _deviceT.push_back(e);
     }
 
-    // 1024x768 60Hz
-    // ...
+    _deviceSelected = std::stoi(audio["Settings"]["DEVICE"]);
+    _globalV = std::stoi(audio["Settings"]["GLOBAL_VOLUME"]);
+    _vsync = (bool)std::stoi(graphic["Graphic"]["VSYNC"]);
+    _fullscreen = (bool)std::stoi(graphic["Graphic"]["FULLSCREEN"]);
+    _antialiasing = std::stoi(graphic["Graphic"]["ANTIALIASING"]);
+    _sens_value = std::stoi(key["View"]["sensitivity"]);
+    _fps = std::stoi(graphic["Video"]["hz"]);
 
-    const GLFWvidmode *vid = glfwGetVideoModes(glfwGetPrimaryMonitor(), &_vidmodsCount);
-    for (unsigned long long i = 0; i < sizeof(vid); i++)
-    {
-        std::string ss = std::to_string(vid[i].width) + "x" + std::to_string(vid[i].height) + " " + std::to_string(vid[i].refreshRate) + "Hz";
-        _vidmods.push_back(ss.c_str());
-    }
-
-    _deviceSelected = _data->audio_settings["DEVICE"];
-    _globalV = _data->audio_settings["GLOBAL_VOLUME"];
-    _vidSelected = 0;
-    _vsync = (bool)_data->graphics_settings["VSYNC"];
-    _fullscreen = (bool)_data->graphics_settings["FULLSCREEN"];
-    _antialiasing = _data->graphics_settings["ANTIALIASING"];
-    _sens_value = _data->supported_keys["SENSITIVITY"];
+    Image = gr::LoadTexture2D("Assets/GFX/GROUND_APP.png");
 }
 
 void MainmenuState::update(float deltaTime)
 {
-    if (gr::Keyboard::IsKeyPressed(_data->window, gr::Keyboard::Key::ENTER))
+    if (play_selected)
     {
-        loading = true;
-        _data->audio_settings["GLOBAL_VOLUME"] = (int)_globalV;
-        _data->audio_settings["DEVICE"] = (int)_deviceSelected;
-        _data->audio_settings.ChangeValues();
-
-        _data->supported_keys["SENSITIVITY"] = _sens_value;
-        _data->supported_keys.ChangeValues();
-
-        _data->graphics_settings["ANTIALIASING"] = _antialiasing;
-        _data->graphics_settings["VSYNC"] = (int)_vsync;
-        _data->graphics_settings["FULLSCREEN"] = (int)_fullscreen;
-        _data->graphics_settings.ChangeValues();
-
+        audio["Settings"]["DEVICE"] = std::to_string(_deviceSelected);
+        audio["Settings"]["GLOBAL_VOLUME"] = std::to_string(_globalV);
+        _data->audio_settings->write(audio);
+        graphic["Graphic"]["VSYNC"] = std::to_string(_vsync);
+        graphic["Graphic"]["FULLSCREEN"] = std::to_string(_fullscreen);
+        graphic["Graphic"]["ANTIALIASING"] = std::to_string(_antialiasing);
+        graphic["Video"]["hz"] = std::to_string(float(_fps));
+        _data->graphic_settings->write(graphic);
+        key["View"]["sensitivity"] = std::to_string(_sens_value);
+        _data->keys_settings->write(key);
         _data->machine.AddState(gr::StatesRef(new GameState(_data)));
     }
 }
 
 void MainmenuState::draw()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    int flags = ImGuiWindowFlags_::ImGuiWindowFlags_NoCollapse
+        | ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar
+        | ImGuiWindowFlags_::ImGuiWindowFlags_NoMove
+        | ImGuiWindowFlags_::ImGuiWindowFlags_NoResize
+        | ImGuiWindowFlags_::ImGuiWindowFlags_NoScrollWithMouse
+        | ImGuiWindowFlags_::ImGuiWindowFlags_NoScrollbar;
+    ImGui::Begin("MainMenu", (bool*)0, flags);
+    ImGui::SetWindowSize(ImVec2(_data->window->GetWidth(), _data->window->GetHeight()));
+    ImVec2 winSize = ImGui::GetWindowSize();
 
-    if (!loading)
-    {
-        if (gr::Keyboard::IsKeyPressed(_data->window, gr::Keyboard::Key::P))
-        {
-            _options = true;
-        }
-
-        title->Draw();
-        start_text->Draw();
-        options_text->Draw();
+    if (play_selected) {
+        ImGui::SetCursorPosY(winSize.y - 40);
+        ImGui::Text("Loading...");
     }
+    else {
 
-    if (_options)
-    {
-        ImGui::Begin("Options");
-        if (ImGui::Button("Display", ImVec2(100, 20)))
+        if (!_options)
         {
-            _display_sett = true;
-            _audio_sett = false;
-            _controls_sett = false;
+            ImGui::SetCursorPosX(winSize.x / 2 - 110);
+            ImGui::SetWindowFontScale(4.0f);
+            ImGui::Text("GROUND");
+            ImGui::SetWindowFontScale(1);
+
+            ImGui::SetCursorPos(ImVec2(winSize.x / 2 - 50, winSize.y / 2 - 50));
+            if (ImGui::Button("Play", ImVec2(100, 50))) {
+                play_selected = true;
+            }
+
+            ImGui::SetCursorPos(ImVec2(winSize.x / 2 - 50, winSize.y / 2 + 100));
+            if (ImGui::Button("Options", ImVec2(100, 50))) {
+                _options = true;
+            }
+
+            ImGui::SetCursorPos(ImVec2(winSize.x / 2 - 50, winSize.y / 2 + 250));
+            if (ImGui::Button("Exit", ImVec2(100, 50))) {
+                _data->window->Close();
+            }
         }
-        ImGui::SameLine();
-        if (ImGui::Button("Audio", ImVec2(100, 20)))
-        {
-            _display_sett = false;
-            _audio_sett = true;
-            _controls_sett = false;
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Controls", ImVec2(100, 20)))
-        {
-            _display_sett = false;
-            _audio_sett = false;
-            _controls_sett = true;
-        }
-        ImGui::Separator();
-        if (_audio_sett)
-        {
-            ImGui::ListBox("Audio Device", &_deviceSelected, _deviceT.data(), gr::SoundDevice::GetDevices().size());
-            ImGui::Separator();
-            ImGui::SliderFloat("Global Volume", &_globalV, 0, 100, std::to_string((int)_globalV).c_str(), 0);
-        }
-        if (_display_sett)
-        {
-            ImGui::TextColored(ImVec4(1.0, 0.0, 0.0, 1.0), "Remember! All the display settings need to restart!");
-            ImGui::Combo("Resolutions", &_vidSelected, _vidmods.data(), _vidmods.size());
-            ImGui::SliderInt("Antialiasing", &_antialiasing, 0, 16, std::to_string(_antialiasing).c_str(), 0);
-            ImGui::Checkbox("Vsync", &_vsync);
+        else {
+            if (ImGui::Button("Display", ImVec2(100, 40)))
+            {
+                _display_sett = true;
+                _audio_sett = false;
+                _controls_sett = false;
+            }
             ImGui::SameLine();
-            ImGui::Checkbox("Fullscreen", &_fullscreen);
-        }
-        if (_controls_sett)
-        {
-            ImGui::TextColored(ImVec4(1.0, 0.0, 0.0, 1.0), "Attention! When VSYNC is disabled, the sensitivity increase.");
-            ImGui::SliderInt("Sensivity", &_sens_value, 0, 100, std::to_string(_sens_value).c_str(), 0);
-        }
+            if (ImGui::Button("Audio", ImVec2(100, 40)))
+            {
+                _display_sett = false;
+                _audio_sett = true;
+                _controls_sett = false;
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Controls", ImVec2(100, 40)))
+            {
+                _display_sett = false;
+                _audio_sett = false;
+                _controls_sett = true;
+            }
+            ImGui::Separator();
+            if (_audio_sett)
+            {
+                ImGui::ListBox("Audio Device", &_deviceSelected, _deviceT.data(), gr::SoundDevice::GetDevices().size());
+                ImGui::Separator();
+                ImGui::SliderFloat("Global Volume", &_globalV, 0, 100, std::to_string((int)_globalV).c_str(), 0);
+            }
+            if (_display_sett)
+            {
+                ImGui::TextColored(ImVec4(1.0, 0.0, 0.0, 1.0), "Remember! All the display settings need to restart!");
 
-        ImGui::End();
+                ImGui::SliderInt("FPS", &_fps, 15, 244);
+                ImGui::SliderInt("Antialiasing", &_antialiasing, 0, 16, std::to_string(_antialiasing).c_str(), 0);
+                ImGui::Checkbox("Vsync", &_vsync);
+                ImGui::SameLine();
+                ImGui::Checkbox("Fullscreen", &_fullscreen);
+            }
+            if (_controls_sett)
+            {
+                ImGui::TextColored(ImVec4(1.0, 0.0, 0.0, 1.0), "Attention! When VSYNC is disabled, the sensitivity increase.");
+                ImGui::SliderInt("Sensivity", &_sens_value, 0, 100, std::to_string(_sens_value).c_str(), 0);
+            }
+
+            ImGui::SetCursorPosY(winSize.y - 40);
+            if (ImGui::Button("Back", ImVec2(50, 30))) {
+                audio["Settings"]["DEVICE"] = std::to_string(_deviceSelected);
+                audio["Settings"]["GLOBAL_VOLUME"] = std::to_string(_globalV);
+                _data->audio_settings->write(audio);
+                graphic["Graphic"]["VSYNC"] = std::to_string(_vsync);
+                graphic["Graphic"]["FULLSCREEN"] = std::to_string(_fullscreen);
+                graphic["Graphic"]["ANTIALIASING"] = std::to_string(_antialiasing);
+                graphic["Video"]["hz"] = std::to_string(float(_fps));
+                _data->graphic_settings->write(graphic);
+                key["View"]["sensitivity"] = std::to_string(_sens_value);
+                _data->keys_settings->write(key);
+                _options = false;
+            }
+        }
+        ImGui::SetCursorPos(ImVec2(0, 0));
+        ImGui::Image((ImTextureID)Image, ImVec2(winSize.x, winSize.y), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1, 1, 1, 0.2));
     }
+    
+    ImGui::End();
 }
 
 void MainmenuState::AfterDraw()
@@ -154,8 +166,4 @@ void MainmenuState::AfterDraw()
 
 void MainmenuState::destroyGL()
 {
-    glDisable(GL_BLEND);
-    delete title;
-    delete start_text;
-    delete options_text;
 }

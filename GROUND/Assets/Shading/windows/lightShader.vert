@@ -18,6 +18,11 @@ out VS_LIGHT_OUT {
 uniform mat4 projection, model, view;
 uniform vec3 lightColor, viewPos, lightPos, viewFront;
 
+out float FogVisibility;
+
+const float FogDensity = 0.5;
+const float FogGradient = 1.5;
+
 void main()
 {
     vs_out.Pos = aPos;
@@ -32,5 +37,10 @@ void main()
     vs_light_out.LightPos = lightPos;
     vs_light_out.ViewFront = viewFront;
 
+    vec4 posRelativeToCam = view * (model * vec4(aPos, 1.0));
+
     gl_Position = projection * view * model * vec4(aPos, 1.0);
+
+    float distance = length(posRelativeToCam.xyz);
+    FogVisibility = exp(-pow((distance * FogDensity), FogGradient));
 }

@@ -72,6 +72,7 @@
     <ClCompile Include="PhysXInitialization.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Engine\Components\RigidDynamic.cpp" />
+    <ClCompile Include="Engine\graphics\Ray.cpp" />
     <ClCompile Include="States\GameState.cpp" />
     <ClCompile Include="States\MainmenuState.cpp" />
   </ItemGroup>
@@ -108,7 +109,6 @@
     <ClInclude Include="Engine\system\StateMachine.h" />
     <ClInclude Include="Engine\system\States.hpp" />
     <ClInclude Include="Engine\system\Vertex.h" />
-    <ClInclude Include="Engine\utils\ConfigParser.h" />
     <ClInclude Include="Engine\utils\DateTime.h" />
     <ClInclude Include="Engine\utils\Math.h" />
     <ClInclude Include="Engine\utils\Types.h" />
@@ -121,21 +121,23 @@
     <ClInclude Include="PhysXInitialization.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Engine\Components\RigidDynamic.h" />
+    <ClInclude Include="Engine\graphics\Ray.h" />
     <ClInclude Include="States\GameState.h" />
     <ClInclude Include="States\MainmenuState.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\model\Sphere.fbx" />
     <None Include="Assets\Shading\windows\Frame.frag" />
     <None Include="Assets\Shading\windows\Frame.vert" />
     <None Include="Assets\Shading\windows\lightShader.vert" />
     <None Include="Assets\Shading\windows\Object3D.frag" />
     <None Include="Assets\Shading\windows\Plane.frag" />
     <None Include="Assets\Shading\windows\PredefinedShader.frag" />
+    <None Include="Assets\Shading\windows\Ray.frag" />
+    <None Include="Assets\Shading\windows\Ray.vert" />
     <None Include="Assets\Shading\windows\SkyBox.frag" />
     <None Include="Assets\Shading\windows\SkyBox.vert" />
     <None Include="Assets\Shading\windows\Texture2D.vert" />
-    <None Include="Engine\utils\ConfigParser.inl" />
+    <None Include="Assets\Shading\windows\Texture3D.frag" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\audio\P_hurt.wav" />

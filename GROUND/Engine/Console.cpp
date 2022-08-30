@@ -1,29 +1,36 @@
 #include "Console.h"
 #include "GR_cross_definitions.h"
 #include "window/Keyboard.h"
+#include <sstream>
 
 namespace gr
 {
 	Console::Console()
 	{
-		ImGuiStyle* style = &ImGui::GetStyle();
-		style->Colors[ImGuiCol_Text] = ImVec4(1.0, 1.0, 1.0, 1.0);
-		buf = new char();
-		user = malloc(100);
+		
 	}
 
 	Console::~Console()
 	{
-		delete buf;
 	}
 
 	void Console::Draw(gr::Window* win)
 	{
-		ImGui::Begin("Debug Console");
-		if (ImGui::Button("Clear", ImVec2(50, 20))) {
-			gr::GetLogBuffer().clear();
+		int flags = ImGuiWindowFlags_::ImGuiWindowFlags_NoCollapse
+			| ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar
+			| ImGuiWindowFlags_::ImGuiWindowFlags_NoMove
+			| ImGuiWindowFlags_::ImGuiWindowFlags_HorizontalScrollbar
+			| ImGuiWindowFlags_::ImGuiWindowFlags_MenuBar
+			| ImGuiWindowFlags_::ImGuiWindowFlags_NoResize;
+		ImGui::Begin("Debug Console", (bool*)0, flags);
+		ImGui::SetWindowFocus();
+		if (ImGui::BeginMenuBar()) {
+			bool p;
+			if (ImGui::MenuItem("Clear", NULL, &p)) {
+				gr::GetLogBuffer().clear();
+			}
+			ImGui::EndMenuBar();
 		}
-		ImGui::Separator();
 		
 		for (auto e : gr::GetLogBuffer()) {
 			if (e.find("OK") != std::string::npos) { ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0, 1.0, 0.0, 1.0)); }

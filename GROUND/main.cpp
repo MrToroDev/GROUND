@@ -5,6 +5,7 @@
 #include <thread>
 #include "Game.h"
 #include "Definitions.h"
+#include "Engine/system/Memory.h"
 
 #ifdef _WIN32
 #include <windows.h>

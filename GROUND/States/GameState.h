@@ -8,6 +8,7 @@
 #include "../Engine/graphics/Framebuffer.h"
 #include "../Engine/graphics/Text.h"
 #include "../Engine/graphics/Billboard.h"
+#include "../Engine/graphics/Ray.h"
 #include <chrono>
 
 class GameState : public gr::States
@@ -16,8 +17,9 @@ private:
 	GameDataRef _data;
 	Player* player;
 	gr::Framebuffer* frame;
-	gr::Text* totalTimeText, * fpsText, * vramText;
+	gr::Text* totalTimeText, * fpsText, * vramText, * renderText;
 	gr::Entity* cube, * test;
+	gr::Ray* ray;
 	gr::Billboard* b;
 
 public:

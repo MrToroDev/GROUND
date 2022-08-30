@@ -3,14 +3,13 @@
 #include "../Engine/system/States.hpp"
 #include "../Game.h"
 #include "../Engine/ECS.h"
-#include "../Engine/graphics/Text.h"
 #include "../Engine/audio/SoundDevice.h"
+#include <imgui.h>
 
 class MainmenuState : public gr::States
 {
 private:
     GameDataRef _data;
-    gr::Text* title, *start_text, *options_text;
     bool _options;
     bool _audio_sett;
     bool _display_sett;
@@ -21,12 +20,12 @@ private:
     std::vector<const char*> _deviceT;
     // Display
     bool _vsync, _fullscreen;
-    std::vector<const char*> _vidmods;
-    int _vidSelected, _vidmodsCount, _antialiasing;
+    int _antialiasing, _fps;
     // Controls
     int _sens_value;
-
-    bool loading;
+    unsigned int Image;
+    bool play_selected = false;
+    mINI::INIStructure audio, graphic, key;
 
 public:
     MainmenuState(GameDataRef data);

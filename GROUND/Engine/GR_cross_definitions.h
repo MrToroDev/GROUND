@@ -29,7 +29,7 @@ namespace gr
     // Print a normal log
     void Print(const char* caption, const char* text);
 
-    std::vector<std::string> GetLogBuffer();
+    std::vector<std::string> &GetLogBuffer();
 
     /**
      * @brief This function init opengl 

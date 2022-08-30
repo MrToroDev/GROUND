@@ -56,7 +56,7 @@ namespace gr
         __logs.push_back(GR_TO_CSTRING(caption, std::string(" ").append(text)));
     }
     
-    std::vector<std::string> GetLogBuffer()
+    std::vector<std::string> &GetLogBuffer()
     {
         return __logs;
     }

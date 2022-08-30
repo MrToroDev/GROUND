@@ -74,9 +74,8 @@ vec4 KernelEffect(sampler2D uTexture, vec2 vTexcoords, float noise) {
     return vec4(col, 1.0);
 }
 
-void GrayScale(out vec4 FragColor, sampler2D uTexture, vec2 vTexcoords)
+void GrayScale(out vec4 FragColor)
 {
-    FragColor = texture(uTexture, vTexcoords);
     float average = (FragColor.r + FragColor.g + FragColor.b) / 3.0;
     FragColor = vec4(average, average, average, 1.0);
 }

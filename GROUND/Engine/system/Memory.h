@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #define GR_MEM_MB 1024.0
 #define GR_MEM_GB 1048576.0
 
@@ -29,5 +31,9 @@ namespace gr
 		* @return size in kb
 		*/
 		static int VRAMcurrentUsage();
+	
+		static bool IsProcessRunning(const std::wstring exec);
+
+		static unsigned long FindProcessId(const std::wstring& processName);
 	};
 }

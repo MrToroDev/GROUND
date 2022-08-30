@@ -15,11 +15,6 @@ StateMachine::~StateMachine()
     // delete loading_text;
 }
 
-void StateMachine::initLoadingScreen()
-{
-    loading_text = new Text(glm::vec2(500, 500), glm::vec2(0, 0), "Loading...", "Assets/fonts/arial.ttf", 1.0);
-}
-
 void StateMachine::AddState(StatesRef newState, bool isReplacing)
 {
     this->_isAdding = true;
@@ -33,7 +28,7 @@ void StateMachine::RemoveState()
     this->_isRemoving = true;
 }
 
-void StateMachine::ProcessChanges(gr::Window& wn, std::mutex& mutex)
+void StateMachine::ProcessChanges()
 {
     if (this->_isRemoving && !this->_states.empty())
     {

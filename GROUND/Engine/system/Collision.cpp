@@ -1,4 +1,5 @@
 #include "Collision.h"
+#include "../graphics/Ray.h"
 
 namespace gr
 {
@@ -48,4 +49,19 @@ namespace gr
         
         return collisionX && collisionY && collisionZ;
     }
+
+    bool Collision::AABB(Ray* r, Entity* e)
+    {
+        bool collisionX = r->end.x + 0.25f >= e->getComponent<gr::TransformComponent>().position.x &&
+            e->getComponent<gr::TransformComponent>().position.x + e->getComponent<gr::TransformComponent>().size.x >= r->end.x;
+        // collision y-axis?
+        bool collisionY = r->end.y + 0.25f >= e->getComponent<gr::TransformComponent>().position.y &&
+            e->getComponent<gr::TransformComponent>().position.y + e->getComponent<gr::TransformComponent>().size.y >= r->end.y;
+
+        bool collisionZ = r->end.z + 0.25f >= e->getComponent<gr::TransformComponent>().position.z &&
+            e->getComponent<gr::TransformComponent>().position.z + e->getComponent<gr::TransformComponent>().size.z >= r->end.z;
+
+        return collisionX && collisionY && collisionZ;
+    }
+
 }

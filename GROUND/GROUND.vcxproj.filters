@@ -166,6 +166,9 @@
     <ClCompile Include="Engine\system\Memory.cpp">
       <Filter>Engine\System</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\graphics\Ray.cpp">
+      <Filter>Engine\Graphic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Components\Basic2DGeometry.h">
@@ -294,9 +297,6 @@
     <ClInclude Include="Engine\Console.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\utils\ConfigParser.h">
-      <Filter>Engine\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="PhysXInitialization.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -308,6 +308,9 @@
     </ClInclude>
     <ClInclude Include="Engine\system\Memory.h">
       <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\graphics\Ray.h">
+      <Filter>Engine\Graphic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -364,9 +367,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\utils\ConfigParser.inl">
-      <Filter>Engine\Utils</Filter>
-    </None>
     <None Include="Assets\Shading\windows\Frame.frag">
       <Filter>resources\Shaders</Filter>
     </None>
@@ -394,7 +394,15 @@
     <None Include="Assets\Shading\windows\Object3D.frag">
       <Filter>resources\Shaders</Filter>
     </None>
-    <None Include="Assets\model\Sphere.fbx" />
+    <None Include="Assets\Shading\windows\Texture3D.frag">
+      <Filter>resources\Shaders</Filter>
+    </None>
+    <None Include="Assets\Shading\windows\Ray.vert">
+      <Filter>resources\Shaders</Filter>
+    </None>
+    <None Include="Assets\Shading\windows\Ray.frag">
+      <Filter>resources\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Assets\fonts\arial.ttf">

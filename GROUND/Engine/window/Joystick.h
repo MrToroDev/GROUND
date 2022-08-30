@@ -31,14 +31,28 @@ namespace gr
 	};
 
 	enum class JoystickButtons {
-
+		Y = 0,
+		X,
+		A,
+		B,
+		PS_X = A,
+		PS_Y = B,
+		PS_SQUARE = X,
+		PS_TRIANGLE = Y,
+		LEFT_TRIGGER_1 = 4,
+		RIGHT_TRIGGER_1 = 5,
+		LEFT_TRIGGER_2 = 6,
+		RIGHT_TRIGGER_2 = 7,
+		SELECT,
+		START
 	};
 
 	class Joystick
 	{
 	public:
-		Joystick(JoystickPlayers n);
+		Joystick();
 
+		bool IsConnected(JoystickPlayers n);
 		float GetAxesValue(JoystickAxes x);
 		bool IsButtonPressed(JoystickButtons b);
 

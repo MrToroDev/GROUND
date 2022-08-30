@@ -22,20 +22,24 @@ GameState::GameState(GameDataRef data)
 
 void GameState::init()
 {
-    gr::SoundDevice::OpenDevice(gr::SoundDevice::GetDevices().at(_data->audio_settings["DEVICE"]));
-      
-    player = new Player(_data->manager, _data->supported_keys);
+    mINI::INIStructure audio;
+    _data->audio_settings->read(audio);
+    gr::SoundDevice::OpenDevice(gr::SoundDevice::GetDevices().at(std::stoi(audio["Settings"]["DEVICE"])));
+    
+    player = new Player(_data->manager, *_data->keys_settings);
     player->Init();
     
     totalTimeText = new gr::Text(glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()), glm::vec2(0, 0), "lorem ipsum", "Assets/fonts/arcade_classic.ttf", 0.25f);
     totalTimeText->SetColor(gr::Color(1, 1, 1));
-    vramText = new gr::Text(glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()), glm::vec2(0, 10), "lorem ipsum", "Assets/fonts/arcade_classic.ttf", 0.25f);
+    vramText = new gr::Text(glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()), glm::vec2(0, 30), "lorem ipsum", "Assets/fonts/arcade_classic.ttf", 0.25f);
     vramText->SetColor(gr::Color(1, 1, 1));
     fpsText = new gr::Text(glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()), glm::vec2(0, 20), "lorem ipsum", "Assets/fonts/arcade_classic.ttf", 0.25f);
     fpsText->SetColor(gr::Color(1, 1, 1));
+    renderText = new gr::Text(glm::vec2(_data->window->GetWidth(), _data->window->GetHeight()), glm::vec2(0, 10), "lorem ipsum", "Assets/fonts/arcade_classic.ttf", 0.25f);
+    renderText->SetColor(gr::Color(1, 1, 1));
 
     cube = &_data->manager.addEntity();
-    cube->addComponent<gr::TransformComponent>(0, 0, 0, glm::vec3(1), 0);
+    cube->addComponent<gr::TransformComponent>(0, 0, 0, glm::vec3(0.5, 1, 0.5), 0);
     cube->addComponent<gr::Basic3DGeometry>(gr::Basic3DGeometryShapes::CUBE, GetShadingPath("Object3D.frag"), GetShadingPath("lightShader.vert"));
 
     test = &_data->manager.addEntity();
@@ -45,31 +49,46 @@ void GameState::init()
         gr::Texture(gr::LoadTexture2D("Assets/GFX/test/brick_diffuse.jpg"), "diffuse"),
         gr::Texture(gr::LoadTexture2D("Assets/GFX/test/brick_specular.jpg"), "specular"),
     };
-    test->addComponent<gr::ModelComponent>("Assets/model/Sphere.fbx", t, GetShadingPath("Object3D.frag"), GetShadingPath("lightShader.vert"));
+    test->addComponent<gr::ModelComponent>("Assets/model/Sphere.fbx", t, GetShadingPath("Texture3D.frag"), GetShadingPath("lightShader.vert"));
     
     b = new gr::Billboard(GetShadingPath("lightShader.vert"), GetShadingPath("Plane.frag"), "??");
 
     frame = new gr::Framebuffer(_data->window->GetWidth(), _data->window->GetHeight(), GetShadingPath("Frame.vert"), GetShadingPath("Frame.frag"));
-
+    
+    glLineWidth(5);
+    ray = new gr::Ray(glm::vec3(0, 0, 2), glm::vec3(0, 0, 0), GetShadingPath("Ray.vert"), GetShadingPath("Ray.frag"));
+    
     gr::Log("Loaded everything!");
 
     gr::Mouse::setCursorVisibility(_data->window, gr::Mouse::SHOW);
+
+    gr::SoundSource* s = new gr::SoundSource();
+    s->SetLoop(true);
+    s->SetPosition(4, 0, 4);
 }
 
 void GameState::update(float deltaTime)
 {
     player->Update(deltaTime, _data->window);
 
+    frame->GetShader()->use();
+    frame->GetShader()->setFloat("_clock", deltaTime);
+    glUseProgram(0);
+
+    player->OnCollision(test);
+
     test->getComponent<gr::TransformComponent>().angleAxis = glm::vec3(0, 1, 0);
     test->getComponent<gr::TransformComponent>().angle += 0.05;
 
-    std::stringstream ss, ss2, ss3;
+    std::stringstream ss, ss2, ss3, ss4;
     ss << "CPU:" << _data->CPU_MS;
     ss2 << "FPS:" << (int)_data->FPS;
-    ss3 << "VRAM:" << gr::Memory::VRAMcurrentUsage() / GR_MEM_MB << " MB";
+    ss3 << "VRAM:" << gr::Memory::VRAMcurrentUsage() / GR_MEM_MB << "MB";
+    ss4 << "Render(ms):" << _data->RENDER_MS;
     this->totalTimeText->SetText(ss.str());
     this->fpsText->SetText(ss2.str());
     this->vramText->SetText(ss3.str());
+    this->renderText->SetText(ss4.str());
 }
 
 void GameState::draw()
@@ -107,14 +126,22 @@ void GameState::draw()
     l.position = player->GetTransform()->position;
 
     test->getComponent<gr::ModelComponent>().SetLight(l);
+
+    ray->SetViewProjection(
+        player->GetProjection(_data->window->GetWidth(), _data->window->GetHeight()),
+        player->GetView()
+    );
 }
 
 void GameState::AfterDraw()
 {
     // Draw Transparent things
     b->Draw(glm::vec3(2, 0, 2), player->GetCamera());
+    ray->Draw(glm::vec3(1));
+    player->UpdateDraw();
 
     frame->UnBind();
+    
     glDisable(GL_DEPTH_TEST);
     frame->DrawStorage();
 
@@ -123,6 +150,7 @@ void GameState::AfterDraw()
     totalTimeText->Draw();
     fpsText->Draw();
     vramText->Draw();
+    renderText->Draw();
 
     glDisable(GL_BLEND);
 }
@@ -134,4 +162,5 @@ void GameState::destroyGL()
     delete totalTimeText;
     delete fpsText;
     delete vramText;
+    delete renderText;
 }

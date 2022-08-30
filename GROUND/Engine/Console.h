@@ -16,9 +16,5 @@ namespace gr
         ~Console();
 
         void Draw(gr::Window* win);
-
-    private:
-        char* buf;
-        void* user;
     };
 }
